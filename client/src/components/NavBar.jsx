@@ -19,7 +19,7 @@ const NavBar = () => {
     const {user}=React.useContext(AuthContext)
     return (
         <Box sx={{ flexGrow: 1 }} >
-            <AppBar position="static" color='info'>
+            <AppBar position="static" color='info'> 
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         socket-io-example-app
