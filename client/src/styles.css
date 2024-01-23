@@ -1,6 +1,11 @@
 body{
-    background-color: rgb(179, 166, 150);
+    background-color: rgb(226, 221, 215);
     margin: 0px;
+}
+
+#root,html,body,.container{
+    height:100%
+
 }
 
 .navbar{
@@ -8,4 +13,20 @@ body{
 }
 .navbar-item{
     color:white
+}
+
+.register-container{
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-row{
+    min-width: 400px;
+}
+
+.register-label{
+    margin-right: 15px;
+
 }

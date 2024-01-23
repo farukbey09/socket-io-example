@@ -1,7 +1,7 @@
 import React from 'react'
 import {Routes,Route,Navigate} from "react-router-dom"
 import Chat from './pages/Chat'
-import Register from './pages/Register'
+import Register from './pages/REgister'
 import Login from './pages/Login'
 import NavBar from './components/NavBar'
 
@@ -9,7 +9,7 @@ import NavBar from './components/NavBar'
 
 const App = () => {
   return (
-    <div >
+    <div  className='container'>
       <NavBar/>
       <Routes>
         <Route path='/' element={<Chat/>}/>
