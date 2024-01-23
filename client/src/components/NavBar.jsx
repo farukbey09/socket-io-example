@@ -15,7 +15,7 @@ const menuItems = [
 ]
 
 
-const NavBar = () => {
+const NavBar = () => { 
     const {user}=React.useContext(AuthContext)
     return (
         <Box sx={{ flexGrow: 1 }} >
