@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import "../styles.css"
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 const menuItems = [
     { label: "Login", path: "/login" },
@@ -15,6 +16,7 @@ const menuItems = [
 
 
 const NavBar = () => {
+    const {user}=React.useContext(AuthContext)
     return (
         <Box sx={{ flexGrow: 1 }} >
             <AppBar position="static" color='info'>
@@ -22,12 +24,16 @@ const NavBar = () => {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         socket-io-example-app
                     </Typography>
+                    <Typography color={"Black"}>
+                        {user?.name}
+                    </Typography>
                     {menuItems.map((item,index) =>
                         <Link to={item.path} key={index} className='navbar-item'>
                              <Button color="inherit">{item.label}</Button>
                         </Link>
                            
                     )}
+                   
 
                 </Toolbar>
             </AppBar>
