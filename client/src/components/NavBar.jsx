@@ -32,7 +32,7 @@ const NavBar = () => {
                              <Button color="inherit">{item.label}</Button>
                         </Link>
                            
-                    )} 
+                    )}
                    
 
                 </Toolbar>
