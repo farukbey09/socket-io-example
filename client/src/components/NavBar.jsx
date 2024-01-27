@@ -8,18 +8,19 @@ import "../styles.css"
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
-const menuItems = [
-    { label: "Login", path: "/login" },
-    { label: "Register", path: "/register" },
-    {label:"Home",path:"/"}
-]
+const NavBar = () => {
+    const { user, logoutUser } = React.useContext(AuthContext);
 
+    const menuItems = [
+        { label: "Login", path: "/login", userLoggedIn: false, action: () => {} },
+        { label: "Register", path: "/register", userLoggedIn: false, action: () => {} },
+        { label: "Home", path: "/", userLoggedIn: true, action: () => {} },
+        { label: "Logout", path: "/login", userLoggedIn: true, action: logoutUser },
+    ];
 
-const NavBar = () => { 
-    const {user}=React.useContext(AuthContext)
     return (
-        <Box sx={{ flexGrow: 1 }} >
-            <AppBar position="static" color='info'> 
+        <Box sx={{ flexGrow: 1 }}>
+            <AppBar position="static" color='info'>
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         socket-io-example-app
@@ -27,18 +28,17 @@ const NavBar = () => {
                     <Typography color={"Black"}>
                         {user?.name}
                     </Typography>
-                    {menuItems.map((item,index) =>
-                        <Link to={item.path} key={index} className='navbar-item'>
-                             <Button color="inherit">{item.label}</Button>
-                        </Link>
-                           
-                    )} 
-                   
-
+                    {menuItems.map((item, index) => (
+                        (user && item.userLoggedIn) || (!user && !item.userLoggedIn) ? (
+                            <Link to={item.path} key={index} className='navbar-item'>
+                                <Button onClick={item.action} color="inherit">{item.label}</Button>
+                            </Link>
+                        ) : null
+                    ))}
                 </Toolbar>
             </AppBar>
         </Box>
-    )
+    );
 }
 
-export default NavBar
+export default NavBar;

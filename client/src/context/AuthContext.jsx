@@ -1,5 +1,5 @@
 import { createContext, useCallback, useEffect, useState } from "react";
-import { BASE_URL, postUser } from "../utils/services";
+import { BASE_URL, postRequest } from "../utils/services";
 import Swal from 'sweetalert2'
 
 
@@ -14,15 +14,23 @@ export const AuthContextProvider = ({ children }) => {
         password: ""
     })
 
+    const [loginInfo, setLoginInfo] = useState({
+        email: "",
+        password: ""
+    })
+
 
     const updateRegisterInfo = useCallback((info) => {
         setRegisterInfo(info)
     }, [])
 
+    const updateLoginInfo = useCallback((info) => {
+        setLoginInfo(info)
+    }, [])
+
     const registerUser = useCallback(async () => {
-        console.log("daDAS")
         setIsRegisterLoading(true)
-        const response = await postUser(`${BASE_URL}/users/register`, JSON.stringify(registerInfo))
+        const response = await postRequest(`${BASE_URL}/users/register`, JSON.stringify(registerInfo))
         setIsRegisterLoading(false)
 
         if (response.error) {
@@ -42,13 +50,37 @@ export const AuthContextProvider = ({ children }) => {
         setUser(response)
     }, [registerInfo])
 
+
+    const loginUser = useCallback(async () => {
+        const response = await postRequest(`${BASE_URL}/users/login`, JSON.stringify(loginInfo))
+
+        if (response.error) {
+            return Swal.fire({
+                title: 'Error!',
+                text: response.message,
+                icon: 'error',
+            })
+        }
+        Swal.fire({
+            title: 'Successfully Login!',
+            icon: 'success',
+        })
+        localStorage.setItem("User", JSON.stringify(response))
+        setUser(response)
+    }, [loginInfo])
+
     useEffect(() => {
 
         const user = localStorage.getItem("User")
         setUser(JSON.parse(user))
     }, [])
 
+    const logoutUser=useCallback(()=>{
+        console.log("2")
+        localStorage.removeItem("User")
+        setUser(null)
 
+    },[])
 
     return <AuthContext.Provider
         value={{
@@ -56,7 +88,11 @@ export const AuthContextProvider = ({ children }) => {
             registerInfo,
             updateRegisterInfo,
             registerUser,
-            isRegisterLoading
+            isRegisterLoading,
+            logoutUser,
+            loginUser,
+            loginInfo,
+            updateLoginInfo
         }}
 
     >
