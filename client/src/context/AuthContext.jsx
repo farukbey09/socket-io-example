@@ -48,6 +48,7 @@ export const AuthContextProvider = ({ children }) => {
         })
         localStorage.setItem("User", JSON.stringify(response))
         setUser(response)
+        window.location.href = '/'
     }, [registerInfo])
 
 
@@ -76,7 +77,6 @@ export const AuthContextProvider = ({ children }) => {
     }, [])
 
     const logoutUser=useCallback(()=>{
-        console.log("2")
         localStorage.removeItem("User")
         setUser(null)
 

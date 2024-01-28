@@ -10,9 +10,12 @@ const Chat = () => {
   const {user}=useContext(AuthContext)
   return (
     <div style={{display:"flex",marginTop:"20px"}}>
-      <ChatList chats={userChats} user={user} />
+      <div style={{marginRight:"10px"}}>
 
-      <MessageContainer/>
+      <ChatList chats={userChats} user={user} />
+      </div>
+
+      <MessageContainer user={user}/>
 
     </div>
   )
