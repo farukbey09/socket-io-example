@@ -20,7 +20,6 @@ const CreateChatDialog = ({ open, handleClose,user }) => {
                 id="combo-box-demo"
                 onChange={(event, newValue) => {
                     updateNewChatInfo({...updateNewChatInfo,firstId:user?._id,secondId:newValue?._id});
-                    // console.log(users);
                   }}
                 options={users}
                 renderInput={(params) => <TextField {...params} label="Users" />}

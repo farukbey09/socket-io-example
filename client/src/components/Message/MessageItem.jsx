@@ -9,13 +9,13 @@ const MessageItem = ({message,user}) => {
     message.senderId===user?._id?
     <Box className="receiver-message-item">
         <div>
-         <Typography variant='h4'>{message.text}</Typography> 
+         <Typography variant='h5'>{message.text}</Typography> 
          <Typography color={"white"}>{moment(message.createdAt).calendar()}</Typography>
          </div>
          </Box>
     :
     <Box className="sender-message-item">        <div>
-    <Typography variant='h4'>{message.text}</Typography> 
+    <Typography variant='h5'>{message.text}</Typography> 
     <Typography color={"white"}>{moment(message.createdAt).calendar()}</Typography>
     </div>
     </Box>

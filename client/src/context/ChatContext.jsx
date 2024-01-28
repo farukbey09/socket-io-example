@@ -2,12 +2,14 @@ import { createContext, useCallback, useEffect, useState } from "react";
 import { BASE_URL, getRequest, postRequest } from "../utils/services";
 import Swal from 'sweetalert2'
 import {io} from "socket.io-client"
+import { SOCKET_BASE_URL } from "../helpers/socketBaseUrl";
 
 export const ChatContext = createContext()
 
 export const ChatContextProvider = ({ children,user }) => {
     const [userChats, setUserChats] = useState(null)
     const [chatMessages, setChatMessages] = useState(null)
+    const [onlineUsers, setOnlineUsers] = useState(null)
     const [newChatInfo, setNewChatInfo] = useState( {
         firstId:"",
         secondId:""
@@ -28,7 +30,6 @@ export const ChatContextProvider = ({ children,user }) => {
                 if(user.members.includes(newChatInfo.secondId))
                 flag++
             })
-            
             if(flag==0){
             const resp=await postRequest(`${BASE_URL}/chats/`,JSON.stringify(newChatInfo))
             if (resp.error) {
@@ -59,9 +60,10 @@ export const ChatContextProvider = ({ children,user }) => {
             if (resp.error) {
                 return console.log(resp.message);
             }
+            const receiverId=currentChat?.members.find((member)=>member!==user?._id)
             setChatMessages((prev)=>[...prev,resp])
-            
-
+            if (socket===null) return 
+            socket.emit("sendMessage",{...resp,receiverId})
     }
 
 
@@ -88,14 +90,41 @@ export const ChatContextProvider = ({ children,user }) => {
         }
 
         getUserChats()
-        const newSocket=io("http://localhost:3000")
+        const newSocket=io(SOCKET_BASE_URL)
         setSocket(newSocket)
         return ()=>{
             newSocket.disconnect()
         }
 
     }, [user])
+
+    //online users
+    useEffect(() => {
+      if (socket===null) return
+        socket.emit("addNewUser",user?._id)
+        socket.on("getOnlineUsers",res=>{
+            setOnlineUsers(res)
+        })
+
+        return ()=>{
+            socket.off("getOnlineUsers")
+        }
+    }, [socket])
     
+    
+    //create message
+    useEffect(() => {
+        if (socket===null) return
+        socket.on("getMessage",(res)=>{
+            if(currentChat?._id !==res.chatId) return
+        setChatMessages((prev)=>[...prev,res])
+        })
+        return ()=>{
+            socket.off("getMessage")
+        }
+
+      }, [currentChat,socket])
+
     useEffect(() => {
         const getChatMesagges=async()=>{
 
@@ -123,6 +152,7 @@ export const ChatContextProvider = ({ children,user }) => {
             currentChat,
             chatMessages,
             createMessage,
+            onlineUsers,
         }}
 
     >

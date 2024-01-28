@@ -24,17 +24,17 @@ const NavBar = () => {
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" color='info'>
                 <Toolbar>
-                    <Typography style={{display:"flex",alignItems:"center"}} variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    {user && <Typography style={{ display: "flex", alignItems: "center" }} variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         <Avatar
-                            style={{marginRight:"10px"}}
+                            style={{ marginRight: "10px" }}
                             sx={{ bgcolor: deepOrange[500] }}
                             alt={user?.name}
                         >
                             {user?.name.charAt(0).toUpperCase()}
-                            
+
                         </Avatar>
                         {user?.name}
-                    </Typography>
+                    </Typography>}
                     {menuItems.map((item, index) => (
                         (user && item.userLoggedIn) || (!user && !item.userLoggedIn) ? (
                             <Link to={item.path} key={index} className='navbar-item'>

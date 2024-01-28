@@ -12,7 +12,6 @@ const [lastMessage, setLastMessage] = useState(null)
             if (resp.error) return console.log(resp.message);
             const messages=resp.filter((message)=>message.senderId!==user?._id)
             setLastMessage(messages[messages.length-1])
-            console.log(messages,resp);
         }
         getMessages()
     }, [chat])
