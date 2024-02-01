@@ -79,4 +79,9 @@ body{
     scrollbar-face-color: transparent;
     scrollbar-highlight-color: transparent;
     scrollbar-shadow-color: transparent;
+    background: lightgray;
+    height: 65vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: gray
 }

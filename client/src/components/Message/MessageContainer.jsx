@@ -4,6 +4,7 @@ import { useFetchRecipientUser } from '../../hooks/useFetchRecipient'
 import { ChatContext } from '../../context/ChatContext'
 import MessageItem from './MessageItem'
 import "../../styles.css"
+import MessageList from './MessageList'
 
 const MessageContainer = ({user}) => {
   const {currentChat,chatMessages,createMessage}=useContext(ChatContext)
@@ -42,14 +43,10 @@ const MessageContainer = ({user}) => {
   return (
     <Container maxWidth="xl" style={{margin:"0px",padding:"0px",marginRight:"10px"}}>
           <Typography variant='h3' align='center' style={{background:"#0288d1",color:"white"}}>{recipientUser?.name}</Typography>
-        <div  ref={scroll} className='scroll' style={{ background: 'lightgray', height: '65vh', overflowY:"auto",scrollbarWidth:"thin",scrollbarColor:"gray" }} >
-          <Grid container >
-          {chatMessages?.map((t)=>{
-            return <Grid item xs={12}><MessageItem message={t} user={user} key={t._id} /> </Grid>
-          })}
-          </Grid>
-
-        </div>
+          <MessageList 
+          scroll={scroll}
+          chatMessages={chatMessages}
+          />
           <TextField variant='outlined'  value={newMessage} onKeyDown={(e)=>handleChange(e)} onChange={(e)=>setNewMessage(e.target.value)} fullWidth style={{background:"white"}}/>
     </Container>
   )
