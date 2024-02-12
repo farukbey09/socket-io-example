@@ -14,7 +14,7 @@ const App = () => {
 
   return (
     <ChatContextProvider user={user}>
-      <div className='container'>
+      <div className='container'> 
         <NavBar />
         <Routes>
           <Route path='/' element={user ? <Chat /> : <Login />} />
